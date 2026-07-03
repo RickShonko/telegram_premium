@@ -1,24 +1,22 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.types import Message
 
 from config import BOT_TOKEN
+from handlers.start import router as start_router
+from handlers.menu import router as menu_router
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
 
-
-@dp.message(CommandStart())
-async def start(message: Message):
-    await message.answer(
-        "🚀 Welcome!\n\n"
-        "This bot will soon allow you to subscribe and access premium content."
-    )
+# Register routers
+dp.include_router(start_router)
+dp.include_router(menu_router)
 
 
 async def main():
+    print("🤖 Bot is running...")
+
     await dp.start_polling(bot)
 
 
